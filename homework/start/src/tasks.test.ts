@@ -87,3 +87,36 @@ describe("R3 — счётчик открытых", () => {
         }
     })
 })
+
+describe("R1/R2/R3: U+200B", () => {
+    it.each(["\u200B", " \u200B\t"])(
+        "оставляет прежнее название при переименовании в пустую строку %j",
+        (title) => {
+            const tasks = [{ id: 1, title: "Старое", done: false }]
+            expect(renameTask(tasks, 1, title)[0].title).toBe("Старое")
+        },
+    )
+
+    it("отклоняет U+200B при создании", () => {
+        expect(createTask(1, "\u200B")).toBeUndefined()
+    })
+
+    it.each(["all", "open", "done"] as const)(
+        "не показывает задачу с названием U+200B в фильтре %s",
+        (filter) => {
+            const tasks = [
+                { id: 1, title: "\u200B", done: false },
+                { id: 2, title: "\u200B", done: true },
+            ]
+            expect(visibleTasks(tasks, filter)).toEqual([])
+        },
+    )
+
+    it("не считает задачи с названием U+200B", () => {
+        const tasks = [
+            { id: 1, title: "\u200B", done: false },
+            { id: 2, title: "\u200B", done: true },
+        ]
+        expect(openCount(tasks)).toBe(0)
+    })
+})
