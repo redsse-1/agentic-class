@@ -1,0 +1,20 @@
+Итог: Реализовано по SPEC.md. Учитываются пробелы, \t, \n, \r, U+00A0 и U+200B как пустое название; пустые задачи исключены из фильтров и счётчика открытых; переименование не сохраняет пустое название и вызывает существующее понятное alert-сообщение в App.tsx.
+
+Изменённый целевой файл: src/tasks.ts.
+Файл src/App.tsx уже содержит требуемое окно alert и не потребовал изменений.
+
+Проверка из homework/start:
+npm test — успешно: 1 файл тестов, 23 теста пройдены.
+npm run build — успешно.
+
+Точный вывод npm test:
+> test
+> vitest run
+
+
+ RUN  v5.0.5 C:/dev/aidd-agentic_class/agentic-class/homework/start
+
+ Test Files  1 passed (1)
+      Tests  23 passed (23)
+   Start at  20:46:38
+   Duration  231ms (transform 27%, import 25%, tests 16%, worker 27%)
