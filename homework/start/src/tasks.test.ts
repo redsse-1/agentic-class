@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { createTask, openCount, renameTask, visibleTasks, seedTasks } from "./tasks"
+import { createTask, isBlankTitle, openCount, renameTask, visibleTasks, seedTasks } from "./tasks"
 
 // Два теста, с которыми поставляется стартер. Они проходят и не покрывают
 // поведение, описанное в ISSUE-7.md.
@@ -118,5 +118,21 @@ describe("R1/R2/R3: U+200B", () => {
             { id: 2, title: "\u200B", done: true },
         ]
         expect(openCount(tasks)).toBe(0)
+    })
+})
+
+describe("классы пустых названий", () => {
+    it.each([
+        "\u200B",
+        "\uFEFF",
+        "\u2060",
+        " \u200B ",
+        " \uFEFF ",
+        " \u2060 ",
+        "\t\u00A0\u200B ",
+        " \t\uFEFF\u00A0 ",
+        "\u00A0\u2060 \t",
+    ])("распознаёт невидимый символ как пустое название: %j", (title) => {
+        expect(isBlankTitle(title)).toBe(true)
     })
 })

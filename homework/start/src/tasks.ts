@@ -18,7 +18,7 @@ export const seedTasks: Task[] = [
 
 /** Доска считает название без непробельных символов отсутствующим названием. */
 export function isBlankTitle(title: string): boolean {
-    return /^[ \t\n\r\u00a0\u200b]*$/.test(title)
+    return /^[ \t\n\r\u00a0\u200b\uFEFF\u2060]*$/.test(title)
 }
 
 /**
@@ -26,14 +26,14 @@ export function isBlankTitle(title: string): boolean {
  * переименования ниже: старая форма сохраняла название без проверки.
  */
 export function createTask(id: number, title: string): Task | undefined {
-    const trimmed = title.replace(/^[ \t\n\r\u00a0\u200b]+|[ \t\n\r\u00a0\u200b]+$/g, "")
+    const trimmed = title.replace(/^[ \t\n\r\u00a0\u200b\uFEFF\u2060]+|[ \t\n\r\u00a0\u200b\uFEFF\u2060]+$/g, "")
     if (isBlankTitle(trimmed)) return undefined
     return { id, title: trimmed, done: false }
 }
 
 /** Переименование существующей задачи. */
 export function renameTask(tasks: Task[], id: number, title: string): Task[] {
-    const trimmed = title.replace(/^[ \t\n\r\u00a0\u200b]+|[ \t\n\r\u00a0\u200b]+$/g, "")
+    const trimmed = title.replace(/^[ \t\n\r\u00a0\u200b\uFEFF\u2060]+|[ \t\n\r\u00a0\u200b\uFEFF\u2060]+$/g, "")
     if (isBlankTitle(trimmed)) return tasks
     return tasks.map((task) => (task.id === id ? { ...task, title: trimmed } : task))
 }
